@@ -1,0 +1,36 @@
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: bd
+spec:
+  selector: 
+    matchLabels:
+      app: bd
+      tier: backend
+  replicas: 1 
+  template: 
+    metadata:
+      labels:
+        app: bd
+        tier: backend
+    spec:
+      containers:
+      - name: bd-mysql
+        image: claumanrique/appcmanrique:dbv10
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: empleados
+     
+        ports: 
+        - containerPort: 3306 
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim

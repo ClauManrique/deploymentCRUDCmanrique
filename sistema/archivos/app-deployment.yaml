@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdeployment
+  labels:
+    app: app
+spec:
+  selector:
+    matchLabels:
+      app: app
+      tier: web
+  replicas: 7 
+  template:
+    metadata:
+      labels:
+        app: app
+        tier: web
+    spec:
+      containers:
+      - name: app
+        image: claumanrique/appcmanrique:appv2
+        ports: 
+        - containerPort: 80 
